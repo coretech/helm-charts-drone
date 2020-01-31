@@ -3,7 +3,7 @@ apiVersion: rbac.authorization.k8s.io/{{ required "A valid .Values.rbac.apiVersi
 kind: RoleBinding
 metadata:
   name: {{ template "drone.fullname" . }}
-  namespace: {{ .Values.kubernetes.namespace . }}
+  namespace: {{ .Values.kubernetes.namespace }}
   labels:
     app: {{ template "drone.name" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -16,5 +16,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ template "drone.serviceAccountName" . }}
-  namespace: {{ .Values.kubernetes.namespace . }}
+  namespace: {{ .Values.kubernetes.namespace }}
 {{ end }}
