@@ -15,31 +15,31 @@ spec:
       app: {{ template "drone.name" . }}
       release: "{{ .Release.Name }}"
       component: agent
-  replicas: {{ .Values.agent.replicas }}
+  replicas: {{ .Values.kubernetes.replicas }}
   template:
     metadata:
       annotations:
         checksum/secrets: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
-{{- if .Values.agent.annotations }}
-{{ toYaml .Values.agent.annotations | indent 8 }}
+{{- if .Values.kubernetes.annotations }}
+{{ toYaml .Values.kubernetes.annotations | indent 8 }}
 {{- end }}
       labels:
         app: {{ template "drone.name" . }}
         release: "{{ .Release.Name }}"
         component: agent
     spec:
-{{- if .Values.agent.schedulerName }}
+{{- if .Values.kubernetes.schedulerName }}
       schedulerName: "{{ .Values.agent.schedulerName }}"
 {{- end }}
-{{- if .Values.agent.affinity }}
+{{- if .Values.kubernetes.affinity }}
       affinity:
-{{ toYaml .Values.agent.affinity | indent 8 }}
+{{ toYaml .Values.kubernetes.affinity | indent 8 }}
 {{- end }}
-{{- if .Values.agent.nodeSelector }}
+{{- if .Values.kubernetes.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.agent.nodeSelector | indent 8 }}
+{{ toYaml .Values.kubernetes.nodeSelector | indent 8 }}
 {{- end }}
-{{- with .Values.agent.tolerations }}
+{{- with .Values.kubernetes.tolerations }}
       tolerations:
         {{- toYaml . | nindent 6 }}
 {{- end }}
@@ -63,20 +63,20 @@ spec:
                 name: {{ template "drone.fullname" . }}
                 key: secret
           - name: DRONE_NAMESPACE_DEFAULT
-            value: {{ .Values.kubernetes.namespace . }}
-          {{- range $key, $value := .Values.agent.env }}
+            value: {{ .Values.kubernetes.namespace }}
+          {{- range $key, $value := .Values.kubernetes.env }}
           - name: {{ $key }}
             value: {{ $value | quote }}
           {{- end }}
         resources:
-{{ toYaml .Values.agent.resources | indent 10 }}
+{{ toYaml .Values.kubernetes.resources | indent 10 }}
 {{- if not .Values.dind.enabled }}
         securityContext:
           privileged: true
         volumeMounts:
           - mountPath: /var/run/docker.sock
             name: docker-socket
-      {{- with .Values.agent.volumeMounts }}
+      {{- with .Values.kubernetes.volumeMounts }}
           {{- toYaml . | nindent 10 }}
       {{- end }}
       volumes:
@@ -84,7 +84,7 @@ spec:
           hostPath:
             path: /var/run/docker.sock
 {{- else }}
-      {{- with .Values.agent.volumeMounts }}
+      {{- with .Values.kubernetes.volumeMounts }}
         volumeMounts:
           {{- toYaml . | nindent 10 }}
       {{- end }}
@@ -118,6 +118,6 @@ spec:
       - name: docker-graph-storage
         emptyDir: {}
 {{- end }}
-    {{- with .Values.agent.volumes }}
+    {{- with .Values.kubernetes.volumes }}
         {{- toYaml . | nindent 6 }}
     {{- end }}
