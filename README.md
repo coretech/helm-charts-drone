@@ -37,6 +37,19 @@ helm upgrade drone \
   stable/drone
 ```
 
+## Custom Registry
+If you need to implicitly run containers from your private registry you can set the default service account to use a custom image pull secret in the CI namespace.
+Create a docker login secret that we can optionally attach to the default service account in the pipelines namespace:
+```
+kubectl create secret generic dockerconfigjson -n cicd-drone \
+    --from-file=.dockerconfigjson=____~/.docker/config.json____  \
+    --type=kubernetes.io/dockerconfigjson
+
+# add the image pull secret to the default service account in the CICD namespace
+kubectl edit sa default -n cicd-drone
+```
+
+
 ## Uninstalling the Chart
 
 To uninstall/delete the `my-release` deployment:

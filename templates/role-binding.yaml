@@ -16,5 +16,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ template "drone.serviceAccountName" . }}
-  namespace: {{ .Values.kubernetes.namespace }}
+  namespace: {{ template "drone.namespace" . }}
 {{ end }}

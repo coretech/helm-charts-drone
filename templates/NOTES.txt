@@ -67,18 +67,6 @@ the official documentation:
     http://docs.drone.io/installation/
 {{- end }}
 
-{{ if not .Values.server.kubernetes.enabled }}
-##############################################################################
-####  WARNING: running drone in kubernetes with legacy pipeline execution ####
-##############################################################################
-
-By setting `server.kubernetes.enabled=false` you've disabled kubernetes
-pipelines and are instead using the legacy agent method which utilizes
-either docker-in-docker or host mounting in the docker socket. This is
-not recommended due to the additional security concerns.
-{{- end }}
-
-
 DRONE_NAMESPACE_RULES is a map[string]string where as the file is a map[string][]string
 default:
 - octocat/*
