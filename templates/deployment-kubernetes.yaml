@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "drone.fullname" . }}-agent
+  name: {{ template "drone.fullname" . }}-kubernetes
   namespace: {{ template "drone.namespace" . }}
   labels:
     app: {{ template "drone.name" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-    component: agent
+    component: kubernetes
 spec:
   selector:
     matchLabels:
       app: {{ template "drone.name" . }}
       release: "{{ .Release.Name }}"
-      component: agent
+      component: kubernetes
   replicas: {{ .Values.kubernetes.replicas }}
   template:
     metadata:
@@ -26,10 +26,10 @@ spec:
       labels:
         app: {{ template "drone.name" . }}
         release: "{{ .Release.Name }}"
-        component: agent
+        component: kubernetes
     spec:
 {{- if .Values.kubernetes.schedulerName }}
-      schedulerName: "{{ .Values.agent.schedulerName }}"
+      schedulerName: "{{ .Values.kubernetes.schedulerName }}"
 {{- end }}
 {{- if .Values.kubernetes.affinity }}
       affinity:
@@ -45,9 +45,9 @@ spec:
 {{- end }}
       serviceAccountName: {{ template "drone.serviceAccountName" . }}
       containers:
-      - name: agent
-        image: "{{ .Values.images.agent.repository }}:{{ .Values.images.agent.tag }}"
-        imagePullPolicy: {{ .Values.images.agent.pullPolicy }}
+      - name: kubernetes
+        image: "{{ .Values.images.kubernetes.repository }}:{{ .Values.images.kubernetes.tag }}"
+        imagePullPolicy: {{ .Values.images.kubernetes.pullPolicy }}
         ports:
         - name: http
           containerPort: 3000

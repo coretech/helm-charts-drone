@@ -1,0 +1,10 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <editorconfig>
+      <option name="ENABLED" value="false" />
+    </editorconfig>
+    <codeStyleSettings language="Dart">
+      <option name="RIGHT_MARGIN" value="100" />
+    </codeStyleSettings>
+  </code_scheme>
+</component>
