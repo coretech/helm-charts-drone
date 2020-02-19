@@ -93,7 +93,7 @@ spec:
           {{- end }}
           {{- if .Values.kubernetesSecrets.enabled }}
           - name: DRONE_SECRET_PLUGIN_ENDPOINT
-            value: "http://{{ template "drone.fullname" . }}-kubernetesSecrets:3000"
+            value: "http://{{ template "drone.fullname" . }}-kubernetes-secrets:3000"
           - name: DRONE_SECRET_PLUGIN_TOKEN
             valueFrom:
               secretKeyRef:
