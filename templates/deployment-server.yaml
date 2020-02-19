@@ -91,6 +91,15 @@ spec:
           - name: {{ $key }}
             value: {{ $value | quote }}
           {{- end }}
+          {{- if .Values.kubernetesSecrets.enabled }}
+          - name: DRONE_SECRET_PLUGIN_ENDPOINT
+            value: "http://{{ template "drone.fullname" . }}-kubernetes-secrets:3000"
+          - name: DRONE_SECRET_PLUGIN_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "drone.fullname" . }}
+                key: secret
+          {{- end}}
           {{ template "drone.providerEnvs" . }}
         ports:
         - name: http
