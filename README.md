@@ -70,9 +70,9 @@ The following table lists the configurable parameters of the drone charts and th
 | `images.server.repository`  | Drone **server** image                                                                        | `docker.io/drone/drone`     |
 | `images.server.tag`         | Drone **server** image tag                                                                    | `1.6.1`                       |
 | `images.server.pullPolicy`  | Drone **server** image pull policy                                                            | `IfNotPresent`              |
-| `images.agent.repository`   | Drone **agent** image                                                                         | `docker.io/drone/agent`     |
-| `images.agent.tag`          | Drone **agent** image tag                                                                     | `1.6.1`                       |
-| `images.agent.pullPolicy`   | Drone **agent** image pull policy                                                             | `IfNotPresent`              |
+| `images.kubernetes.repository`   | Drone **kubernetes** image                                                                         | `docker.io/drone/kubernetes`     |
+| `images.kubernetes.tag`          | Drone **kubernetes** image tag                                                                     | `1.6.1`                       |
+| `images.kubernetes.pullPolicy`   | Drone **kubernetes** image pull policy                                                             | `IfNotPresent`              |
 | `images.dind.repository`    | Docker **dind** image                                                                         | `docker.io/library/docker`  |
 | `images.dind.tag`           | Docker **dind** image tag                                                                     | `18.06.1-ce-dind`           |
 | `images.dind.pullPolicy`    | Docker **dind** image pull policy                                                             | `IfNotPresent`              |
@@ -110,21 +110,21 @@ The following table lists the configurable parameters of the drone charts and th
 | `server.tolerations`        | Drone **server** node taints to tolerate                                                      | `[]`                        |
 | `server.extraContainers`    | Additional sidecar containers                                                                 | `""`                        |
 | `server.extraVolumes`       | Additional volumes for use in extraContainers                                                 | `""`                        |
-| `agent.env`                 | Drone **agent** environment variables                                                         | `(default values)`          |
-| `agent.replicas`            | Drone **agent** replicas                                                                      | `1`                         |
-| `agent.annotations`         | Drone **agent** annotations                                                                   | `{}`                        |
-| `agent.resources`           | Drone **agent** pod resource requests & limits                                                | `{}`                        |
-| `agent.schedulerName`       | Drone **agent** alternate scheduler name                                                      | `nil`                       |
-| `agent.affinity`            | Drone **agent** scheduling preferences                                                        | `{}`                        |
-| `agent.nodeSelector`        | Drone **agent** node labels for pod assignment                                                | `{}`                        |
-| `agent.tolerations`         | Drone **agent** node taints to tolerate                                                       | `[]`                        |
-| `agent.livenessProbe` | Not currently used. | `{}` |
-| `agent.readinessProbe` | Not currently used  | `{}` |
-| `agent.volumes`             | Additional volumes to make available to agent (shared by dind if used)                        | `nil`                       |
-| `agent.volumeMounts`        | Mount points for volumes                                                                      | `nil`                       |
+| `kubernetes.env`                 | Drone **kubernetes** environment variables                                                         | `(default values)`          |
+| `kubernetes.replicas`            | Drone **kubernetes** replicas                                                                      | `1`                         |
+| `kubernetes.annotations`         | Drone **kubernetes** annotations                                                                   | `{}`                        |
+| `kubernetes.resources`           | Drone **kubernetes** pod resource requests & limits                                                | `{}`                        |
+| `kubernetes.schedulerName`       | Drone **kubernetes** alternate scheduler name                                                      | `nil`                       |
+| `kubernetes.affinity`            | Drone **kubernetes** scheduling preferences                                                        | `{}`                        |
+| `kubernetes.nodeSelector`        | Drone **kubernetes** node labels for pod assignment                                                | `{}`                        |
+| `kubernetes.tolerations`         | Drone **kubernetes** node taints to tolerate                                                       | `[]`                        |
+| `kubernetes.livenessProbe` | Not currently used. | `{}` |
+| `kubernetes.readinessProbe` | Not currently used  | `{}` |
+| `kubernetes.volumes`             | Additional volumes to make available to kubernetes (shared by dind if used)                        | `nil`                       |
+| `kubernetes.volumeMounts`        | Mount points for volumes                                                                      | `nil`                       |
 | `dind.enabled`              | Enable or disable **DinD**                                                                    | `true`                      |
 | `dind.driver`               | **DinD** storage driver                                                                       | `overlay2`                  |
-| `dind.volumeMounts`         | Mount points for volumes (defined in agent.volumes)                                           | `nil`                       |
+| `dind.volumeMounts`         | Mount points for volumes (defined in kubernetes.volumes)                                           | `nil`                       |
 | `dind.resources`            | **DinD** pod resource requests & limits                                                       | `{}`                        |
 | `dind.env`                  | **DinD** environment variables                                                                | `nil`                       |
 | `dind.command`              | **DinD** custom command instead of default entry point                                        | `nil`                       |
@@ -135,7 +135,7 @@ The following table lists the configurable parameters of the drone charts and th
 | `persistence.storageClass`  | Storage class of backing PVC                                                                  | `nil`                       |
 | `persistence.accessMode`    | Use volume as ReadOnly or ReadWrite                                                           | `ReadWriteOnce`             |
 | `persistence.size`          | Size of data volume                                                                           | `1Gi`                       |
-| `sharedSecret`              | Drone server and agent shared secret (Note: The Default random value changes on every `helm upgrade` causing a rolling update of server and agents) | `(random value)`            |
+| `sharedSecret`              | Drone server and kubernetes shared secret (Note: The Default random value changes on every `helm upgrade` causing a rolling update of server and agents) | `(random value)`            |
 | `rbac.create`               | Specifies whether RBAC resources should be created.                                           | `true`                      |
 | `rbac.apiVersion`           | RBAC API version                                                                              | `v1`                        |
 | `serviceAccount.create`     | Specifies whether a ServiceAccount should be created.                                         | `true`                      |
