@@ -64,6 +64,15 @@ spec:
                 key: secret
           - name: DRONE_NAMESPACE_DEFAULT
             value: {{ .Values.kubernetes.namespace }}
+          {{- if .Values.kubernetesSecrets.enabled }}
+          - name: DRONE_SECRET_PLUGIN_ENDPOINT
+            value: "http://{{ template "drone.fullname" . }}-kubernetes-secrets:3000"
+          - name: DRONE_SECRET_PLUGIN_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "drone.fullname" . }}
+                key: secret
+          {{- end}}
           {{- range $key, $value := .Values.kubernetes.env }}
           - name: {{ $key }}
             value: {{ $value | quote }}
