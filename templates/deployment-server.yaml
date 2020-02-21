@@ -89,7 +89,11 @@ spec:
           {{- end }}
           {{- range $key, $value := .Values.server.env }}
           - name: {{ $key }}
+            {{ if typeIs "string" $value }}
             value: {{ $value | quote }}
+            {{ else }}
+            {{ toYaml $value | indent 14 | trim }}
+          {{ end }}
           {{- end }}
           {{ template "drone.providerEnvs" . }}
         ports:
