@@ -93,7 +93,7 @@ spec:
             value: {{ $value | quote }}
             {{ else }}
             {{ toYaml $value | indent 14 | trim }}
-          {{ end }}
+            {{ end }}
           {{- end }}
           {{ template "drone.providerEnvs" . }}
         ports:
